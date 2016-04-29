@@ -1,0 +1,299 @@
+//written by: Mahetab Salama
+
+/*
+
+Write a C program to keep records and perform statistical analysis for a class of 20 students. The information of each student contains ID, Name, and total score. 
+
+The program will prompt the user to choose the operation of records from a menu as shown below: ============================================ Menu ============================================ 
+1. Add student records 
+2. Delete student records 
+3. Update student records 
+4. View all student records 
+5. Show student who gets the max total score 
+6. Show student who gets the min total score 
+7. Find student by ID 
+8. Sort records by total scores
+ 
+Enter your choice:1 
+Note: All students records store in an array of structures
+
+*/
+
+#include<stdio.h>
+#include <stdlib.h>
+
+#define students_no 19
+
+ int record=-1;
+
+struct student {
+char name[50];
+unsigned int ID;
+unsigned int score;
+};
+struct student student[students_no];
+
+ //char is_full();
+ //char is_empty();
+ void studentList_init();
+ void Add();
+ void Delete();
+ void Update();
+ void View_all();
+ void Show_maxScore();
+ void Show_minScore();
+ void Find_byID();
+ void Sort_byScore();
+
+int main()
+{
+  studentList_init();
+  int choice;
+  printf("\n ***Students records list*** \n\n");
+  printf("1. Add student records\n");
+  printf("2. Delete student records\n");
+  printf("3. Update student records\n");
+  printf("4. View all student records\n");
+  printf("5. Show student who gets the max total score\n");
+  printf("6. Show student who gets the min total score \n");
+  printf("7. Find student by ID\n");
+  printf("8. Sort records by total scores\n");
+  printf("9. Quit\n");
+
+while(1){
+  printf("\nEnter your choice: ");
+  scanf("%i", &choice);
+  printf("\n");
+  switch(choice){
+  case 1:
+        Add();
+      break;
+  case 2:
+        Delete();
+      break;
+  case 3:
+        Update();
+      break;
+  case 4:
+        View_all();
+      break;
+  case 5:
+       Show_maxScore();
+      break;
+  case 6:
+        Show_minScore();
+      break;
+  case 7:
+        Find_byID();
+      break;
+  case 8:
+       Sort_byScore();
+      break;
+  case 9:
+      printf("You are exiting the program...!\n");
+      exit(0);
+  default:
+      printf("You entered wrong choice!, try again!\n");
+      break;
+  }
+}
+}
+/*
+ char is_full(){
+   if(record==students_no)
+    return 1;
+    else
+    return 0;
+ }
+ char is_empty(){
+   if(record==0)
+     //printf("List is empty!");
+     return 0;
+    else
+    return 1;
+ }
+*/
+
+void studentList_init(){
+int i;
+for(i=0;i<students_no;i++)
+    student[i].name[0]='\0';
+    student[i].ID=0;
+    student[i].score=0;
+}
+
+//Add student records
+void Add(){
+if(record==students_no){
+  printf("The list is FUll!");
+  return ;
+}
+else{
+ record++;
+printf("Enter student name: ");
+scanf("%s",student[record].name);
+printf("Enter student ID: ");
+scanf("%i", &student[record].ID);
+printf("Enter student total score:");
+scanf("%i", &student[record].score);
+printf("\n");
+}
+}
+//Delete student records
+void Delete(){
+    int i;
+    if(record==-1)
+        printf("The student list is empty!\n");
+    else{
+    printf("Enter the number of the record\n you want to delete\n:");
+    scanf("%i", &i);
+    student[i].name[0]='\0';
+    student[i].ID=0;
+    student[i].score=0;
+    printf("Student record#%i is deleted!",i);
+    }
+
+}
+
+//View all student records
+void View_all(){
+    int i;
+     if(record==-1){
+        printf("List is empty, No records to view!\n");
+    }else{
+       for(i=0;i<=record;i++){
+          printf("Student no.%i\n", i);
+          printf("Name: %s\n",student[i].name);
+          printf("ID: %i\n", student[i].ID);
+          printf("Score: %i\n\n", student[i].score);
+
+          if(student[i].name=='\0')
+            printf("student no.%i information not available!\n",i);
+    }
+}
+}
+
+//Find student by ID
+void Find_byID(){
+     int i,ID;
+    if(record==-1)
+        printf("The students list is empty!\n");
+    else{
+        printf("Enter student ID:");
+        scanf("%i", &ID);
+        for(i=0;i<=record;i++){
+        if(student[i].ID==ID){
+            printf("\nThe student with this ID is:\nThe student number %i\n",i);
+            printf("Name: %s\n", student[i].name);
+            printf("ID: %i\n", student[i].ID);
+            printf("score: %i\n", student[i].score);
+        }
+        }
+        printf("No student record with this ID!");
+    }
+}
+
+//Update student records
+void Update(){
+    int i;
+    if(record==-1){
+        printf("The students list is empty, no records to update!\n");
+    }else{
+    printf("Enter the record no. of the student to update information:");
+    scanf("%i",&i );
+    printf("Do you want to update the name,0 if yes, 1 if no: ");
+    scanf("%i",&i);
+    if(i==0){
+        printf("\nEnter the new name:");
+        scanf("%s", student[i].name);
+    }
+    printf("\nDo you want to update the ID,0 if yes, 1 if no:");
+    scanf("%i",&i);
+    if(i==0){
+        printf("\nEnter the new ID:");
+        scanf("%i", &student[i].ID);
+    }
+    printf("\nDo you want to update the score,0 if yes, 1 if no:");
+    scanf("%i",&i);
+    if(i==0){
+        printf("\nEnter the new score:");
+        scanf("%i", &student[i].score);
+    }
+    printf("The updated information of record#%i are:\n ", i);
+    printf("Name: %s\n", student[i].name);
+    printf("ID: %i\n", student[i].ID);
+    printf("Score: %i\n", student[i].score);
+    }
+}
+
+//Show student who gets the max total score
+void Show_maxScore(){
+    int i, maxscore;
+    if(record==-1)
+        printf("The list is empty!\n");
+    else{
+        maxscore=student[0].score;
+        for(i=1;i<=record;i++){
+          if(student[i].score>maxscore){
+            maxscore=student[i].score;
+          }
+        }
+        for(i=0;i<=record;i++){
+            if(student[i].score==maxscore){
+            printf("The student with the max score is:\nThe student number %i\n",i);
+            printf("Name: %s\n", student[i].name);
+            printf("ID: %i\n", student[i].ID);
+            printf("score: %i\n", student[i].score);
+            }
+        }
+    }
+}
+//Show student who gets the min total score
+void Show_minScore(){
+    int i, minscore;
+    if(record==-1)
+        printf("The students list is empty!\n");
+    else{
+    minscore=student[0].score;
+    for(i=1;i<=record;i++){
+            if(student[i].score<minscore){
+            minscore=student[i].score;
+            }
+    }
+    for(i=0;i<=record;i++){
+        if(student[i].score==minscore){
+            printf("The student with the min score is:\nThe student number %i\n",i);
+            printf("Name: %s\n", student[i].name);
+            printf("ID: %i\n", student[i].ID);
+            printf("Score: %i\n", student[i].score);
+        }
+    }
+
+}
+}
+
+//Sort records by total scores
+//// descending (order == -1) or ascending (order == 1) sort
+void Sort_byScore(){
+  int i,j,order;
+  struct student temp;
+  printf("Enter the order of sorting: -1 for descending or 1 for ascending\n");
+  scanf("%i", &order);
+  for(i=0;i<=record-1;i++){
+    for(j=i+1;j<=record;j++){
+        if ( (order == -1 && student[i].score < student[j].score) ||
+             (order == 1  && student[i].score > student[j].score) )
+            {
+                 temp=student[i];
+                 student[i]=student[j];
+                 student[j]=temp;
+            }
+    }
+  }
+   printf("The list of students after sorting according to score:\n");
+   for(i=0;i<=record;i++){
+    printf("Name: %s\n", student[i].name);
+    printf("ID: %i\n", student[i].ID);
+    printf("Score: %i\n", student[i].score);
+   }
+}
