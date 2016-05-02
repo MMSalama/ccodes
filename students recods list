@@ -49,6 +49,8 @@ int main()
 {
   studentList_init();
   int choice;
+
+while(1){
   printf("\n ***Students records list*** \n\n");
   printf("1. Add student records\n");
   printf("2. Delete student records\n");
@@ -60,7 +62,6 @@ int main()
   printf("8. Sort records by total scores\n");
   printf("9. Quit\n");
 
-while(1){
   printf("\nEnter your choice: ");
   scanf("%i", &choice);
   printf("\n");
@@ -106,8 +107,7 @@ while(1){
     return 0;
  }
  char is_empty(){
-   if(record==0)
-     //printf("List is empty!");
+   if(record==-1)
      return 0;
     else
     return 1;
@@ -122,11 +122,11 @@ for(i=0;i<students_no;i++)
     student[i].score=0;
 }
 
-//Add student records
+//Add student to the records list//
 void Add(){
 if(record==students_no){
   printf("The list is FUll!");
-  return ;
+  exit(0);
 }
 else{
  record++;
@@ -141,39 +141,38 @@ printf("\n");
 }
 //Delete student records
 void Delete(){
-    int i;
+    int i,index;
     if(record==-1)
         printf("The student list is empty!\n");
     else{
-    printf("Enter the number of the record\n you want to delete\n:");
-    scanf("%i", &i);
-    student[i].name[0]='\0';
+    printf("Enter the number of the record you want to delete:");
+    scanf("%i", &index);
+    /*student[i].name[0]='\0';
     student[i].ID=0;
-    student[i].score=0;
-    printf("Student record#%i is deleted!",i);
+    student[i].score=0;*/
+    for(i=index;i<=record;i++){
+        student[i]=student[i+1];
+    }
+    record--;
+    printf("\nStudent record#%i is deleted!\n",i);
     }
 
 }
 
-//View all student records
+//View all student records//
 void View_all(){
     int i;
      if(record==-1){
         printf("List is empty, No records to view!\n");
     }else{
+       printf("Name\t\tID\t\tScore\n");
        for(i=0;i<=record;i++){
-          printf("Student no.%i\n", i);
-          printf("Name: %s\n",student[i].name);
-          printf("ID: %i\n", student[i].ID);
-          printf("Score: %i\n\n", student[i].score);
-
-          if(student[i].name=='\0')
-            printf("student no.%i information not available!\n",i);
+          printf("%s\t\t%i\t\t%i\n", student[i].name,student[i].ID,student[i].score);
     }
 }
 }
 
-//Find student by ID
+//Find student by ID//
 void Find_byID(){
      int i,ID;
     if(record==-1)
@@ -182,53 +181,53 @@ void Find_byID(){
         printf("Enter student ID:");
         scanf("%i", &ID);
         for(i=0;i<=record;i++){
-        if(student[i].ID==ID){
-            printf("\nThe student with this ID is:\nThe student number %i\n",i);
-            printf("Name: %s\n", student[i].name);
-            printf("ID: %i\n", student[i].ID);
-            printf("score: %i\n", student[i].score);
+            if(student[i].ID==ID){
+                printf("\nThe student with this ID is:\nThe student with record#%i\n",i);
+                printf("Name: %s\n", student[i].name);
+                printf("ID: %i\n", student[i].ID);
+                printf("score: %i\n", student[i].score);
+            }
         }
-        }
-        printf("No student record with this ID!");
+        printf("\nNo student record with this ID!\n");
     }
 }
 
-//Update student records
+//Update student records//
 void Update(){
     int i;
     if(record==-1){
         printf("The students list is empty, no records to update!\n");
     }else{
-    printf("Enter the record no. of the student to update information:");
-    scanf("%i",&i );
-    printf("Do you want to update the name,0 if yes, 1 if no: ");
-    scanf("%i",&i);
-    if(i==0){
-        printf("\nEnter the new name:");
-        scanf("%s", student[i].name);
-    }
-    printf("\nDo you want to update the ID,0 if yes, 1 if no:");
-    scanf("%i",&i);
-    if(i==0){
+       printf("Enter the record no. of the student to update information:");
+       scanf("%i",&i );
+       printf("\nDo you want to update the name,y if yes, n if no: ");
+       getchar();
+       if(getchar()=='y'){
+          printf("\nEnter the new name:");
+          scanf("%s", student[i].name);
+       }
+       printf("\nDo you want to update the ID,y if yes, n if no:");
+        getchar();
+        if(getchar()=='y'){
         printf("\nEnter the new ID:");
         scanf("%i", &student[i].ID);
-    }
-    printf("\nDo you want to update the score,0 if yes, 1 if no:");
-    scanf("%i",&i);
-    if(i==0){
+        }
+        printf("\nDo you want to update the score,y if yes, n if no:");
+        getchar();
+        if(getchar()=='y'){
         printf("\nEnter the new score:");
         scanf("%i", &student[i].score);
-    }
-    printf("The updated information of record#%i are:\n ", i);
-    printf("Name: %s\n", student[i].name);
-    printf("ID: %i\n", student[i].ID);
-    printf("Score: %i\n", student[i].score);
+        }
+        printf("\nThe updated information of record#%i are:\n ", i);
+        printf("Name: %s\n", student[i].name);
+        printf("ID: %i\n", student[i].ID);
+        printf("Score: %i\n", student[i].score);
     }
 }
 
-//Show student who gets the max total score
+//Show student who gets the max total score//
 void Show_maxScore(){
-    int i, maxscore;
+    int i, maxscore,index;
     if(record==-1)
         printf("The list is empty!\n");
     else{
@@ -236,21 +235,18 @@ void Show_maxScore(){
         for(i=1;i<=record;i++){
           if(student[i].score>maxscore){
             maxscore=student[i].score;
+            index=i;
           }
         }
-        for(i=0;i<=record;i++){
-            if(student[i].score==maxscore){
             printf("The student with the max score is:\nThe student number %i\n",i);
-            printf("Name: %s\n", student[i].name);
-            printf("ID: %i\n", student[i].ID);
-            printf("score: %i\n", student[i].score);
-            }
-        }
+            printf("Name: %s\n", student[index].name);
+            printf("ID: %i\n", student[index].ID);
+            printf("score: %i\n", student[index].score);
     }
 }
-//Show student who gets the min total score
+//Show student who gets the min total score//
 void Show_minScore(){
-    int i, minscore;
+    int i, minscore,index;
     if(record==-1)
         printf("The students list is empty!\n");
     else{
@@ -258,22 +254,19 @@ void Show_minScore(){
     for(i=1;i<=record;i++){
             if(student[i].score<minscore){
             minscore=student[i].score;
+            index=i;
             }
     }
-    for(i=0;i<=record;i++){
-        if(student[i].score==minscore){
             printf("The student with the min score is:\nThe student number %i\n",i);
-            printf("Name: %s\n", student[i].name);
-            printf("ID: %i\n", student[i].ID);
-            printf("Score: %i\n", student[i].score);
-        }
+            printf("Name: %s\n", student[index].name);
+            printf("ID: %i\n", student[index].ID);
+            printf("Score: %i\n", student[index].score);
+
     }
-
-}
 }
 
-//Sort records by total scores
-//// descending (order == -1) or ascending (order == 1) sort
+//Sort records by total score//
+//descending (order == -1) or ascending (order == 1) sort
 void Sort_byScore(){
   int i,j,order;
   struct student temp;
@@ -291,9 +284,10 @@ void Sort_byScore(){
     }
   }
    printf("The list of students after sorting according to score:\n");
+   printf("Name\t\tID\t\tScore\n");
    for(i=0;i<=record;i++){
-    printf("Name: %s\n", student[i].name);
-    printf("ID: %i\n", student[i].ID);
-    printf("Score: %i\n", student[i].score);
+      printf("%s\t\t%i\t\t%i\n", student[i].name,student[i].ID,student[i].score);
    }
 }
+
+
