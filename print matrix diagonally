@@ -2,25 +2,39 @@
 
 int main(){
 int i,j,k, l;
-int mat[3][3]={{1,2,3}, {4,5,6}, {7,8,9}};
+int r, c;
+int mat[10][10];
+printf("\nEnter the row and columns:");
+scanf("%d %d", &r,&c);
 
-for(i=0;i<3;i++){
+printf("\nEnter %dx%d matrix row by row\n", r,c);
+for(i=0;i<r;i++){
+    for(j=0;j<c;j++){
+     scanf("%d ", &mat[i][j]);
+    }
+}
+
+for(i=0;i<r;i++){
     if(i==0){
-        for(k=0;k<3;k++){
+        for(k=0;k<r;k++){
             l=0;
             for(j=k;j>=0;j--, l++){
-                printf(" %d ", mat[l][j]);
+                printf(" %3d ", mat[l][j]);
             }
             printf("\n");
         }
-    }else if(i == 2){
-        printf(" %d ", mat[2][2]);
-    }else{
+    }
+
+    else if((i > 0 )&& (i< r-1)){
     l=i;
-    for(j=i+1;j>=i;j--,l++){
-        printf(" %d ", mat[l][j]);
+    for(j=c-1;j>=i && l<=r-1;j--,l++){
+        printf(" %3d ", mat[l][j]);
     }
     printf("\n");
+    }
+
+    else{
+        printf(" %3d ", mat[i][i]);
     }
 }
 return 0;
