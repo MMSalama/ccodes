@@ -1,0 +1,27 @@
+#include<stdio.h>
+
+int main(){
+int i,j,k, l;
+int mat[3][3]={{1,2,3}, {4,5,6}, {7,8,9}};
+
+for(i=0;i<3;i++){
+    if(i==0){
+        for(k=0;k<3;k++){
+            l=0;
+            for(j=k;j>=0;j--, l++){
+                printf(" %d ", mat[l][j]);
+            }
+            printf("\n");
+        }
+    }else if(i == 2){
+        printf(" %d ", mat[2][2]);
+    }else{
+    l=i;
+    for(j=i+1;j>=i;j--,l++){
+        printf(" %d ", mat[l][j]);
+    }
+    printf("\n");
+    }
+}
+return 0;
+}
